@@ -39,6 +39,7 @@ class NewPatchViewModel : ViewModel() {
         private set
 
     var useManager by mutableStateOf(true)
+    var newPackageName by mutableStateOf("") 
     var debuggable by mutableStateOf(false)
     var overrideVersionCode by mutableStateOf(false)
     var sigBypassLevel by mutableStateOf(2)
@@ -90,6 +91,7 @@ class NewPatchViewModel : ViewModel() {
         Log.d(TAG, "Configuring patch for ${app.app.packageName}")
         patchApp = app
         patchState = PatchState.CONFIGURING
+        newPackageName = app.app.packageName
     }
 
     private fun submitPatch() {
@@ -97,7 +99,15 @@ class NewPatchViewModel : ViewModel() {
         if (useManager) embeddedModules = emptyList()
         patchOptions = Patcher.Options(
             injectDex = injectDex,
-            config = PatchConfig(useManager, debuggable, overrideVersionCode, sigBypassLevel, null, null, outputLog),
+            config = PatchConfig(
+                useManager = useManager,
+                debuggable = debuggable,
+                overrideVersionCode = overrideVersionCode,
+                sigBypassLevel = sigBypassLevel,
+                originalSignature = null,
+                appComponentFactory = null,
+                outputLog = outputLog
+            ),
             apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
             embeddedModules = embeddedModules.flatMap { listOf(it.app.sourceDir) + (it.app.splitSourceDirs ?: emptyArray()) }
         )

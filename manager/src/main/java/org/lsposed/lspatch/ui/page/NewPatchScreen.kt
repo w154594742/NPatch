@@ -53,6 +53,7 @@ import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.SelectionColumn
 import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
+import org.lsposed.lspatch.ui.component.settings.SettingsEditor
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.util.InstallResultReceiver
@@ -335,6 +336,13 @@ private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
                 }
             )
         }
+        SettingsEditor(
+            modifier = Modifier.padding(top = 6.dp),
+            title = stringResource(R.string.patch_new_package),
+            value = viewModel.newPackageName,
+            onValueChange = { viewModel.newPackageName = it }
+        )
+        
         SettingsCheckBox(
             modifier = Modifier
                 .padding(top = 6.dp)
